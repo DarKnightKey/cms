@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>Site列表页</title>
 </head>
 <body>
-This is site list !!!! </br>
-It is my web site named {{ siteName }} </br>
-Build in {{ current_date }}.
+{% if error %}
+    <p style="color: red;">Please submit a search term.</p>
+{% endif %}
+<form action="" method="get">
+    <input type="text" name="siteName">
+    <input type="submit" value="Search">
+</form>
 
-    <form action="/siteList/" method="get">
-        <input type="text" name="q">
-        <input type="submit" value="Search">
-    </form>
+<p>You searched for: <strong>{{ siteName }}</strong></p>
+    {% if siteList %}
+        <p>Found {{ siteList|length }} site{{ siteList|pluralize }}.</p>
+        <ul>
+        {% for site in siteList %}
+            <li>{{ site.name }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+            <p>No site matched your search criteria.</p>
+    {% endif %}
 </body>
 </html>
