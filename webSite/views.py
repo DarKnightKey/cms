@@ -23,5 +23,5 @@ def siteList(request):
             error = True
         else:
             siteList = Site.objects.filter(name__icontains = siteName)
-        return render_to_response('search_results.html', {'siteList': siteList, 'siteName': siteName});
-    return render_to_response('search_form.html', {'error': error});
+            return render_to_response('webSite/site/list.html', {'siteList': siteList, 'siteName': siteName});
+    return render_to_response('webSite/site/list.html', {'error': error});
