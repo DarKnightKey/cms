@@ -8,6 +8,7 @@ from django.template import Context
 from django.template.loader import get_template
 
 # 站点的列表页面
+from webSite.forms import ContactForm
 from webSite.models import Site
 
 # site列表页
@@ -33,21 +34,17 @@ def thanks(request):
 
 # 联系我们
 def contact(request):
-    errors = [];
     if request.method == 'POST':
-        if not request.POST.get('subject', ''):
-            errors.append('Enter a subject.')
-        if not request.POST.get('message', ''):
-            errors.append('Enter a message.')
-        if request.POST.get('email') and '@' not in request.POST['email']:
-            errors.append('Enter a valid e‐mail address.')
-    if not errors:
-        # 发送反馈邮件
-        # send_mail(
-        #     request.POST['subject'],
-        #     request.POST['message'],
-        #     request.POST.get('email', '240942070@qq.com'),
-        #     ['240942070@qq.com'],
-        # )
-        return HttpResponseRedirect('/webSite/thanks')
-    return render_to_response('webSite/common/contact.html',{'errors': errors})
+        form = ContactForm(request.POST);
+    if form.is_valid():
+        cd = form.cleaned_data;
+        send_mail(
+            cd['subject'],
+            cd['message'],
+            cd.get('email', 'noreply@example.com'),
+            ['siteowner@example.com'],
+        );
+        return HttpResponseRedirect('/contact/thanks/');
+    else:
+        form = ContactForm();
+    return render_to_response('contact_form.html', {'form': form})
