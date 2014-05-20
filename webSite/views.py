@@ -38,13 +38,13 @@ def contact(request):
         form = ContactForm(request.POST);
     if form.is_valid():
         cd = form.cleaned_data;
-        send_mail(
-            cd['subject'],
-            cd['message'],
-            cd.get('email', 'noreply@example.com'),
-            ['siteowner@example.com'],
-        );
-        return HttpResponseRedirect('/contact/thanks/');
+        # send_mail(
+        #     cd['subject'],
+        #     cd['message'],
+        #     cd.get('email', '240942070@qq.com'),
+        #     ['240942070@qq.com'],
+        # );
+        return HttpResponseRedirect('webSite/thanks/');
     else:
         form = ContactForm();
-    return render_to_response('contact_form.html', {'form': form})
+    return render_to_response('webSite/common/contact.html', {'form': form})
